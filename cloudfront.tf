@@ -16,7 +16,7 @@ resource "aws_cloudfront_distribution" "main" {
     cloudfront_default_certificate = true
     acm_certificate_arn      = aws_acm_certificate.us_east_1_cert.arn
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
 
   default_cache_behavior {
@@ -77,9 +77,9 @@ resource aws_cloudfront_origin_request_policy policy {
 
 # CloudFrontレスポンスヘッダー
 ## マネージドポリシーを指定する場合は、resourceではなくdataでnameのみを指定する
-data aws_cloudfront_response_headers_policy managed {
-    name    = "Managed-SimpleCORS"
-}
+# data aws_cloudfront_response_headers_policy managed {
+#     name    = "Managed-SimpleCORS"
+# }
 # OAC を作成
 resource "aws_cloudfront_origin_access_control" "main" {
   name                              = "cf-oac-with-tf-example"
