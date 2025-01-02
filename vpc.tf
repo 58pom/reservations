@@ -11,7 +11,7 @@ resource "aws_vpc" "reservation-vpc" {
 }
 
 # パブリックサブネットの作成
-resource "aws_subnet" "elb-subnet-01" {
+resource "aws_subnet" "alb-subnet-01" {
   vpc_id                  = aws_vpc.reservation-vpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "ap-northeast-1a"
@@ -22,7 +22,7 @@ resource "aws_subnet" "elb-subnet-01" {
   }
 }
 
-resource "aws_subnet" "elb-subnet-02" {
+resource "aws_subnet" "alb-subnet-02" {
   vpc_id                  = aws_vpc.reservation-vpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "ap-northeast-1c"
@@ -76,26 +76,26 @@ resource "aws_route_table" "sample_rtb" {
   }
 }
 
-# サブネットにルートテーブルを紐づけ
-resource "aws_route_table_association" "sample_rt_assoc" {
-  subnet_id      = aws_subnet.elb-subnet-01.id
-  route_table_id = aws_route_table.sample_rtb.id
-}
+# # サブネットにルートテーブルを紐づけ
+# resource "aws_route_table_association" "sample_rt_assoc" {
+#   subnet_id      = aws_subnet.alb-subnet-01.id
+#   route_table_id = aws_route_table.sample_rtb.id
+# }
 
-# セキュリティグループの作成
-resource "aws_security_group" "sample_sg" {
-  name   = "sample-sg"
-  vpc_id = aws_vpc.reservation-vpc.id
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+# # セキュリティグループの作成
+# resource "aws_security_group" "sample_sg" {
+#   name   = "sample-sg"
+#   vpc_id = aws_vpc.reservation-vpc.id
+#   ingress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
