@@ -1,6 +1,4 @@
-#----------------------------------------
 # VPCの作成
-#----------------------------------------
 resource "aws_vpc" "reservation-vpc" {
   cidr_block           = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -11,9 +9,8 @@ resource "aws_vpc" "reservation-vpc" {
     Name= "reservation-vpc"
   }
 }
-#----------------------------------------
+
 # パブリックサブネットの作成
-#----------------------------------------
 resource "aws_subnet" "elb-subnet-01" {
   vpc_id                  = aws_vpc.reservation-vpc.id
   cidr_block              = "10.0.1.0/24"
@@ -57,9 +54,8 @@ resource "aws_subnet" "api-subnet-02" {
     Name = "api-subnet-02"
   }
 }
-#----------------------------------------
+
 # インターネットゲートウェイの作成
-#----------------------------------------
 resource "aws_internet_gateway" "reservation-igw" {
   vpc_id = aws_vpc.reservation-vpc.id
 
@@ -67,9 +63,8 @@ resource "aws_internet_gateway" "reservation-igw" {
     Name = "reservation-igw"
   }
 }
-#----------------------------------------
+
 # ルートテーブルの作成
-#----------------------------------------
 resource "aws_route_table" "sample_rtb" {
   vpc_id = aws_vpc.reservation-vpc.id
   route {
@@ -80,16 +75,14 @@ resource "aws_route_table" "sample_rtb" {
       Name = "reservation-rtb"
   }
 }
-#----------------------------------------
+
 # サブネットにルートテーブルを紐づけ
-#----------------------------------------
 resource "aws_route_table_association" "sample_rt_assoc" {
   subnet_id      = aws_subnet.elb-subnet-01.id
   route_table_id = aws_route_table.sample_rtb.id
 }
-#----------------------------------------
+
 # セキュリティグループの作成
-#----------------------------------------
 resource "aws_security_group" "sample_sg" {
   name   = "sample-sg"
   vpc_id = aws_vpc.reservation-vpc.id
